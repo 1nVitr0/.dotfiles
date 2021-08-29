@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Usage: decrypt_recursive path
+decrypt_recursive() {
+  find -L "$1" -maxdepth 100 -type f -name '*.gpg' \
+    | xargs --no-run-if-empty -- \
+      gpg --batch --decrypt-files
+}
+
+# Usage: encrypt_recursive path recipient
+encrypt_recursive() {
+  find -L "$1" -maxdepth 10 -type f ! -name '*.gpg' \
+    | xargs --no-run-if-empty -- \
+      gpg --recipient "$2" --batch --encrypt-files
+}
+
+export -f decrypt_recursive
+export -f encrypt_recursive

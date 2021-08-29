@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# ! Must be in ./dotfile directory when sourcing
+
+export CONFIG_DIR="../.setup/dotfiles"
+
+source ../helpers/config
+
+echo "No Config needed."

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+echo "Linking new dotfiles to $HOME..."
+link_dotfile_dirs . $HOME

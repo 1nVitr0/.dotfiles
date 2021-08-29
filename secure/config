@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# ! Must be in ./secure directory when sourcing
+
+export CONFIG_DIR="../.setup/secure"
+
+source ../helpers/config
+
+GPG_KEY_ID=$(read_config \
+  gpg_key_id \
+  "your gpg key id for decryption")
+gpg -k "$GPG_KEY_ID" \
+  | update_config gpg_key_id "$GPG_KEY_ID" true
+
+echo "Using Config:"
+echo "    gpg key id: $GPG_KEY_ID"
+echo
+
+export GPG_KEY_ID

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+
+cd -P -- "$(dirname "$0")"
+
+# Includes
+source ./helpers/gpg
+
+dir="$(dirname "$1")"
+out="$2"
+
+if [[ "$out" == secure/* ]] ; then
+  secure/import $1 $2
+else
+  dotfiles/import $1 $2
+fi

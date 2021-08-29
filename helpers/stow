@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Usage: link_dotfile_dirs path target
+link_dotfile_dirs() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+  | xargs -t0 --max-args=1 --no-run-if-empty -- \
+    stow -v --target="$2"
+}
+
+link_dotfiles() {
+  echo "$1" "$2"
+  stow -v --target="$2" "$1"
+}

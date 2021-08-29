@@ -1,0 +1,23 @@
+#!/bin/bash
+
+distro=$(lsb_release -si)
+
+# Usage: install instructions name
+install_fallback() {
+  instructions="$1"
+  shift
+  case $distro in
+    *Ubuntu*)
+      ! dpkg -s "$@" &> /dev/null && \
+      ! sudo apt-get -y install "$@" && \
+      echo && echo "$instructions" && return 1;
+  esac
+}
+
+install() {
+  if install_fallback "Please install $* manually" "$@" ; then
+    return 0
+  else
+    return 1
+  fi
+}

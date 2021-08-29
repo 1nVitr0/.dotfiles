@@ -1,0 +1,10 @@
+.vscode/
+.setup/
+
+# Gitignores should always be included
+!**/*.gitignore
+
+# Secure dotfiles
+secure/*/**/*
+!secure/*/**/*.gpg
+!secure/*/**/.stow-local-ignore

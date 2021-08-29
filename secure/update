@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -euo pipefail # safe mode
+shopt -s dotglob  # include hidden files mode
+set -o noclobber  # Enable overwriting existing files
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/gpg
+source ../helpers/git
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+merge_conflicts=()
+
+echo "Updating dotfiles..."
+readarray -d '' dotfiles < <(find -L . -maxdepth 100 -type f -name '*.gpg' -print0)
+for file in $dotfiles; do
+  filename="${file#./}"; filename="secure/${filename%.gpg}"
+  if update_check_encrypted "$file" ; then
+    echo "Successfully updated $filename"
+    echo "    Encrypting updated dotfile $filename..."
+    gpg --encrypt --recipient "$GPG_KEY_ID" "${file%.gpg}" >| "$file" 2> /dev/null
+  else
+    echo "Not updating $filename. You will have to handle merge conflicts manually."
+    merge_conflicts+=("$filename")
+  fi
+done
+echo
+
+echo "Linking new dotfiles to $HOME..."
+link_dotfile_dirs . $HOME
+echo
+
+if (( ${#merge_conflicts[@]} )); then
+  echo "The following files have merge conflicts. They will have to be edited manually before committing:"
+  for conflict in "${merge_conflicts[@]}" ; do
+    echo "    $conflict"
+  done
+else
+  echo "All files have been updated successfully. You may update the git repository."
+fi

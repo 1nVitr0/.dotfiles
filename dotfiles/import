@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -euo pipefail # safe mode
+shopt -s dotglob  # include hidden files mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+dir="$(dirname "$1")"
+out="${2#dotfiles/}"
+
+mkdir -p "$out/$dir"
+
+echo "Copying files from $HOME/$1 to $out/$dir..."
+cp -r "$HOME/$1" "$out/$dir/"
+echo
+
+echo "Linking dotfiles from $out to $HOME..."
+link_dotfiles "$out" ..

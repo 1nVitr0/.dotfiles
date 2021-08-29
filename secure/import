@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -euo pipefail # safe mode
+shopt -s dotglob  # include hidden files mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/gpg
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+dir="$(dirname "$1")"
+out="${2#secure/}"
+
+mkdir -p "$out/$dir"
+if ! test -f "$out/.stow-local-ignore" ; then
+  # Create stow ignore file to omit *.gpg files
+  ln -s .stow-local-ignore "$out/.stow-local-ignore"
+fi
+
+echo "Copying files from $HOME/$1 to $out/$dir..."
+cp -r "$HOME/$1" "$out/$dir/"
+echo
+
+echo "Encrypting files in $out/$dir..."
+encrypt_recursive "$out/$dir/" "$GPG_KEY_ID"
+echo
+
+echo "Linking dotfiles from $out to $HOME..."
+link_dotfiles "$out" ..

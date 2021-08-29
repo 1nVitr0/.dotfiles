@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+
+cd -P -- "$(dirname "$0")"
+
+dotfiles/update
+secure/update

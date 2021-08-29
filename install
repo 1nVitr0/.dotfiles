@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+
+cd -P -- "$(dirname "$0")"
+
+# Includes
+source ./helpers/software
+
+# Install packages
+install stow
+install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
+
+# Bootstrap initial configs
+stow -v bootstrap
+
+# Install dotfiles
+dotfiles/install
+secure/install

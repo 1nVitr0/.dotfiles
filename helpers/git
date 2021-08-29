@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Usage: update_check original update
+update_check() {
+  if test -f "$1" && ! diff "$1" "$2" &> /dev/null ; then
+    echo "Upstream and local files differ for $1. Opening diff editor to merge."
+    echo "    Waiting for editor to close file..."
+    code -wd "$1" "$2"
+    read -rp "    Do you want to keep merged version (y/N)? " -n 1
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
+      echo "    Keeping local version."
+      return 1
+    fi
+  fi
+
+  return 0
+}
+
+# Usage: update_check encryped_file
+update_check_encrypted() {
+  orig="$(dirname "$1")/$(basename "$1" .gpg)"
+  temp="$(dirname "$1")/~$(basename "$1" .gpg)"
+
+  gpg --decrypt "$1" > "$temp" 2> /dev/null
+  update_check "$orig" "$temp"; result=$?
+  rm -f "$temp" 
+
+  return $result
+}
+
+export -f update_check
+export -f update_check_encrypted
