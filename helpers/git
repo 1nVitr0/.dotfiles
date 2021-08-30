@@ -28,6 +28,3 @@ update_check_encrypted() {
 
   return $result
 }
-
-export -f update_check
-export -f update_check_encrypted

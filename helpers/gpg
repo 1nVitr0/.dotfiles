@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o noclobber  # Enable overwriting existing files
+
 # Usage: decrypt_recursive path
 decrypt_recursive() {
   find -L "$1" -maxdepth 100 -type f -name '*.gpg' \
@@ -9,10 +11,7 @@ decrypt_recursive() {
 
 # Usage: encrypt_recursive path recipient
 encrypt_recursive() {
-  find -L "$1" -maxdepth 10 -type f ! -name '*.gpg' \
+  find -L "$1" -maxdepth 100 -type f ! -name '*.gpg' ! -name '.stow-local-ignore' \
     | xargs --no-run-if-empty -- \
-      gpg --recipient "$2" --batch --encrypt-files
+      gpg --batch --yes --recipient "$2" --encrypt-files
 }
-
-export -f decrypt_recursive
-export -f encrypt_recursive

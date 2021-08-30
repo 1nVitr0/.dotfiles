@@ -6,5 +6,6 @@
 
 # Secure dotfiles
 secure/*/**/*
+!secure/*/**/
 !secure/*/**/*.gpg
 !secure/*/**/.stow-local-ignore

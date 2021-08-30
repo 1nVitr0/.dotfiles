@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+echo "Migrating from  version $VERSION to $LATEST_VERSION"
+echo
+
+# Perform version migrations
+if [[ $VERSION -lt 1 ]] ; then
+  echo "You are on your first version. Congrats!"
+fi

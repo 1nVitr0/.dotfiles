@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# ! Must be in ./dotfile directory when sourcing
+
+export CONFIG_DIR="$PWD/.setup/migrations"
+export SOFTWARE_DIR="$PWD/setup/software"
+
+mkdir -p "$SOFTWARE_DIR"
+source ../helpers/config
+
+export LATEST_VERSION=0
+export VERSION=$(read_config_cache version $LATEST_VERSION)

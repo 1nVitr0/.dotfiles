@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/software
+
+# Load config variables
+source ./config
+
+echo "Setting up .dotfiles for version $LATEST_VERSION"
+echo
+
+$previous_dir="$PWD"
+cd "$SOFTWARE_DIR"
+
+# TODO: Install software
+
+cd $previous_dir

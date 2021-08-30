@@ -12,12 +12,21 @@ read_config() {
   fi
 }
 
+# Usage: read_config name default
+read_config_cache() {
+  if test -f "$CONFIG_DIR/$1" ; then
+    cat "$CONFIG_DIR/$1"
+  else
+    echo "$2"
+  fi
+}
+
 # Usage: read_config name value [required]
 update_config() {
+  rm -f "$CONFIG_DIR/$1"
   if [[ $? -eq 0 ]] ; then
     echo "$2" > "$CONFIG_DIR/$1"
-  else
-    rm -f "$CONFIG_DIR/$1"
-    if [ -z ${3+x} ] ; then exit 1; fi
+  elif [ -z ${3+x} ] ; then 
+    exit 1
   fi
 }

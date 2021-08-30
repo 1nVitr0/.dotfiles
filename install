@@ -7,7 +7,7 @@ cd -P -- "$(dirname "$0")"
 # Includes
 source ./helpers/software
 
-# Install packages
+# Install required packages
 install stow
 install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
 
@@ -15,5 +15,6 @@ install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux t
 stow -v bootstrap
 
 # Install dotfiles
+migrations/install
 dotfiles/install
 secure/install
