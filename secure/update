@@ -39,6 +39,11 @@ if (( ${#merge_conflicts[@]} )); then
   for conflict in "${merge_conflicts[@]}" ; do
     echo "    $conflict"
   done
+  echo
+  echo "Afterwards, run $(dirname "$0")/secure/encrypt and commit changes"
 else
+  echo "No merge conflicts."
+  ./encrypt
+  echo
   echo "All files have been updated successfully. You may update the git repository."
 fi

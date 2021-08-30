@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -euo pipefail # safe mode
+shopt -s dotglob  # include hidden files mode
+cd -P -- "$(dirname "$0")"
+
+# Imports
+source ../helpers/gpg
+
+# Load config variables
+source ./config
+
+echo "Encrypring files..."
+encrypt_recursive . "$GPG_KEY_ID"

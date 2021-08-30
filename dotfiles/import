@@ -16,8 +16,8 @@ out="${2#dotfiles/}"
 mkdir -p "$out/$dir"
 
 echo "Copying files from $HOME/$1 to $out/$dir..."
-cp -r "$HOME/$1" "$out/$dir/"
+mv "$HOME/$1" "$out/$dir/"
 echo
 
 echo "Linking dotfiles from $out to $HOME..."
-link_dotfiles "$out" ..
+link_dotfiles "$out" $HOME

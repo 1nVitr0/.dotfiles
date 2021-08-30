@@ -9,5 +9,10 @@ source ../helpers/stow
 # Load config variables
 source ./config
 
-echo "Linking new dotfiles to $HOME..."
-link_dotfile_dirs . $HOME
+if [ -z "${1+x}" ] ; then
+  echo "Linking new dotfiles to $HOME..."
+  link_dotfile_dirs . "$HOME"
+else
+  echo "Linking dotfiles from "$1" to $HOME..."
+  link_dotfiles "$1" "$HOME"
+fi

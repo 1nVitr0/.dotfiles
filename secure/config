@@ -2,7 +2,7 @@
 
 # ! Must be in ./secure directory when sourcing
 
-export CONFIG_DIR="../.setup/secure"
+export CONFIG_DIR="$PWD/.setup/secure"
 
 source ../helpers/config
 

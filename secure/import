@@ -17,16 +17,35 @@ out="${2#secure/}"
 mkdir -p "$out/$dir"
 if ! test -f "$out/.stow-local-ignore" ; then
   # Create stow ignore file to omit *.gpg files
-  ln -s .stow-local-ignore "$out/.stow-local-ignore"
+  ln -s ../.stow-local-ignore "$out/.stow-local-ignore"
 fi
 
-echo "Copying files from $HOME/$1 to $out/$dir..."
-cp -r "$HOME/$1" "$out/$dir/"
+echo "Copying files from $HOME/$1 to secure/$out/$dir..."
+mv "$HOME/$1" "$out/$dir/"
 echo
 
-echo "Encrypting files in $out/$dir..."
+echo "Linking dotfiles from secure/$out to dotfiles/$out..."
+mkdir -p "../dotfiles/$out" # create directory if not exist
+link_dotfiles_overlay "$out" "../dotfiles/$out"
+echo
+
+echo "Encrypting files in secure/$out/$dir..."
 encrypt_recursive "$out/$dir/" "$GPG_KEY_ID"
 echo
 
-echo "Linking dotfiles from $out to $HOME..."
-link_dotfiles "$out" ..
+../dotfiles/update "$out"
+
+# readarray -d '' "$out" < <(find -L . -maxdepth 100 -type ! f -name '*.gpg' -print0)
+# for file in $dotfiles; do
+#   filename="secure/${file#./}"
+
+#   if update_check_encrypted "$file" ; then
+#     echo "Successfully updated $filename"
+#     echo "    Encrypting updated dotfile $filename..."
+#     gpg --encrypt --recipient "$GPG_KEY_ID" "${file%.gpg}" >| "$file" 2> /dev/null
+#   else
+#     echo "Not updating $filename. You will have to handle merge conflicts manually."
+#     merge_conflicts+=("$filename")
+#   fi
+# done
+# echo
