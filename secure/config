@@ -1,10 +1,18 @@
 #!/bin/bash
 
-# ! Must be in ./secure directory when sourcing
+cd -P -- "$(dirname "$0")"
 
-export CONFIG_DIR="$PWD/.setup/secure"
+export CONFIG_DIR="$PWD/../.setup/secure"
 
 source ../helpers/config
+
+if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
+  if [[ ! -z ${2+x} ]] ; then
+    clear_config "$2"
+  else
+    clear_config
+  fi
+fi
 
 GPG_KEY_ID=$(read_config \
   gpg_key_id \

@@ -1,0 +1,49 @@
+#!/bin/bash
+
+cd -P -- "$(dirname "$0")"
+
+export CONFIG_DIR="$PWD/.setup/main"
+
+source ./helpers/config
+
+if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
+  if [[ ! -z ${2+x} && "$2" == "all" ]] ; then
+    clear_config
+    ./dotfiles/config clear
+    ./secure/config clear
+  elif [ ! -z ${2+x} ] ; then
+    clear_config "$2"
+  else
+    clear_config
+  fi
+fi
+
+DOTFILE_PROFILES=$(read_config \
+  profiles \
+  "your active dotfile profiles")
+update_config profiles "$DOTFILE_PROFILES" true
+
+default=$(echo "$DOTFILE_PROFILES" | head -n1 | cut -d " " -f1)
+DOTFILE_DEFAULT_PROFILE=$(read_config \
+  default_profile \
+  "your defaul dotfile profile" \
+  "$default")
+update_config default_profile "$DOTFILE_DEFAULT_PROFILE" true
+
+echo "Using Config:"
+echo "    dotfile profiles:        $DOTFILE_PROFILES"
+echo "    default dotfile profile: $DOTFILE_DEFAULT_PROFILE"
+echo
+
+# Load subconfigs of specified
+if [ ! -z ${1+x} && "$1" == "all" ] ; then
+  echo "Updating dotfile config"
+  ./dotfiles/config
+  echo
+  echo "Updating secure config"
+  echo
+  ./secure/config
+fi
+
+export DOTFILE_PROFILES
+export DOTFILE_DEFAULT_PROFILE

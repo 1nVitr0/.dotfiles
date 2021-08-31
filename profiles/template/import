@@ -5,7 +5,7 @@ set -euo pipefail; shopt -s failglob # safe mode
 cd -P -- "$(dirname "$0")"
 
 # Includes
-source ./helpers/gpg
+source ../../helpers/gpg
 
 dir="$(dirname "$1")"
 out="$2"

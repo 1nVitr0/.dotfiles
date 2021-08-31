@@ -34,18 +34,3 @@ encrypt_recursive "$out/$dir/" "$GPG_KEY_ID"
 echo
 
 ../dotfiles/update "$out"
-
-# readarray -d '' "$out" < <(find -L . -maxdepth 100 -type ! f -name '*.gpg' -print0)
-# for file in $dotfiles; do
-#   filename="secure/${file#./}"
-
-#   if update_check_encrypted "$file" ; then
-#     echo "Successfully updated $filename"
-#     echo "    Encrypting updated dotfile $filename..."
-#     gpg --encrypt --recipient "$GPG_KEY_ID" "${file%.gpg}" >| "$file" 2> /dev/null
-#   else
-#     echo "Not updating $filename. You will have to handle merge conflicts manually."
-#     merge_conflicts+=("$filename")
-#   fi
-# done
-# echo

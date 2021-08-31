@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+
+cd -P -- "$(dirname "$0")"
+
+# Includes
+source ../helpers/stow
+
+mkdir -p "$1/dotfiles"
+mkdir -p "$1/secure"
+
+link_dotfiles_overlay template "$1"

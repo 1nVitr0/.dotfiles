@@ -7,8 +7,14 @@ read_config() {
   if test -f "$CONFIG_DIR/$1" ; then
     cat "$CONFIG_DIR/$1"
   else
-    read -rp "Enter $2: " _val
-    echo "$_val"
+    description="$2"
+    [ ! -z ${3+x} ] && description="$description (default $3)"
+    read -rp "Enter $description: " value
+    if [ -z "$value" ] && [ ! -z ${3+x} ] ; then
+      echo "$3"
+    else
+      echo "$value"
+    fi
   fi
 }
 
@@ -28,5 +34,13 @@ update_config() {
     echo "$2" > "$CONFIG_DIR/$1"
   elif [ -z ${3+x} ] ; then 
     exit 1
+  fi
+}
+
+clear_config() {
+  if [ ! -z ${3+x} ] ; then
+    rm -r "$CONFIG_DIR"
+  else
+    rm "$CONFIG_DIR/$1"
   fi
 }

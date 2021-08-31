@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+
+cd -P -- "$(dirname "$0")"
+
+# Includes
+source ../../helpers/software
+
+# Load config variables
+source ./config
+
+# Install dotfiles
+test -f migrations && migrations/install
+dotfiles/install
+secure/install
