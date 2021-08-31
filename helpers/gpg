@@ -17,8 +17,8 @@ decrypt_recursive() {
   files=$(find -L "$1" -maxdepth 100 -type f -name '*.gpg')
   for encrypted in $files ; do
     decrypted=${encrypted%.gpg}
-    gpg --decrypt-files "$encrypted"
-    chmod --reference="$encrypted" -- "$decrypted"
+    touch "$decrypted" && chmod --reference="$encrypted" -- "$decrypted"
+    gpg --yes --decrypt-files "$encrypted"
   done
 }
 
@@ -27,7 +27,7 @@ encrypt_recursive() {
   files=$(find -L "$1" -maxdepth 100 -type f ! -name '*.gpg' ! -name '.stow-local-ignore')
   for decrypted in $files ; do
     encrypted="$decrypted.gpg"
+    touch "$encrypted" && chmod --reference="$decrypted" -- "$encrypted"
     gpg --yes --recipient "$2" --encrypt-files "$decrypted"
-    chmod --reference="$decrypted" -- "$encrypted"
   done
 }
