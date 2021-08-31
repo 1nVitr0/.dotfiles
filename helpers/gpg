@@ -7,13 +7,8 @@ align_file_permissions() {
   files=$(find -L "$1" -maxdepth 100 -type f -name '*.gpg')
   for encrypted in $files ; do
     decrypted=${encrypted%.gpg}
-    if [ "$1" == "encrypt" ] ; then
-      permissions=$(stat -c "%a" "$decrypted")
-      chmod $permissions "$encrypted"
-    elif [ "$1" == "decrypt" ] ; then
-      permissions=$(stat -c "%a" "$encrypted")
-      chmod $permissions "$decrypted"
-    fi
+    [ "$1" == "encrypt" ] && chmod --reference="$decrypted" -- "$encrypted"
+    [ "$1" == "decrypt" ] && chmod --reference="$encrypted" -- "$decrypted"
   done
 }
 
@@ -22,8 +17,8 @@ decrypt_recursive() {
   files=$(find -L "$1" -maxdepth 100 -type f -name '*.gpg')
   for encrypted in $files ; do
     decrypted=${encrypted%.gpg}
-    permissions=$(stat -c "%a" "$encrypted")
-    chmod $permissions "$decrypted"
+    gpg --decrypt-files "$encrypted"
+    chmod --reference="$encrypted" -- "$decrypted"
   done
 }
 
@@ -32,7 +27,7 @@ encrypt_recursive() {
   files=$(find -L "$1" -maxdepth 100 -type f ! -name '*.gpg' ! -name '.stow-local-ignore')
   for decrypted in $files ; do
     encrypted="$decrypted.gpg"
-    permissions=$(stat -c "%a" "$decrypted")
-    chmod $permissions "$encrypted"
+    gpg --yes --recipient "$2" --encrypt-files "$decrypted"
+    chmod --reference="$decrypted" -- "$encrypted"
   done
 }
