@@ -1,0 +1,32 @@
+name: Release Version
+on:
+  push:
+    branches:
+      - main
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
+      - name: Install semantic release dependencied
+        run: npm i @semantic-release/changelog @semantic-release/git
+      - name: Run semantic release
+        uses: docker://codfish/semantic-release-action:v1
+        with:
+          branches: |
+            [ 'main' ]
+          tag_format: 'v${version}'
+          plugins: |
+            [
+              '@semantic-release/commit-analyzer',
+              '@semantic-release/release-notes-generator',
+              '@semantic-release/github',
+              '@semantic-release/changelog',
+              [
+                '@semantic-release/git',
+                { 'message': 'chore(release): ${nextRelease.version}\n\n${nextRelease.notes}' }
+              ],
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
