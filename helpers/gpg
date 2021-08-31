@@ -2,16 +2,37 @@
 
 set -o noclobber  # Enable overwriting existing files
 
+# Usage: decrypt_recursive direction
+align_file_permissions() {
+  files=$(find -L "$1" -maxdepth 100 -type f -name '*.gpg')
+  for encrypted in $files ; do
+    decrypted=${encrypted%.gpg}
+    if [ "$1" == "encrypt" ] ; then
+      permissions=$(stat -c "%a" "$decrypted")
+      chmod $permissions "$encrypted"
+    elif [ "$1" == "decrypt" ] ; then
+      permissions=$(stat -c "%a" "$encrypted")
+      chmod $permissions "$decrypted"
+    fi
+  done
+}
+
 # Usage: decrypt_recursive path
 decrypt_recursive() {
-  find -L "$1" -maxdepth 100 -type f -name '*.gpg' \
-    | xargs --no-run-if-empty -- \
-      gpg --batch --decrypt-files
+  files=$(find -L "$1" -maxdepth 100 -type f -name '*.gpg')
+  for encrypted in $files ; do
+    decrypted=${encrypted%.gpg}
+    permissions=$(stat -c "%a" "$encrypted")
+    chmod $permissions "$decrypted"
+  done
 }
 
 # Usage: encrypt_recursive path recipient
 encrypt_recursive() {
-  find -L "$1" -maxdepth 100 -type f ! -name '*.gpg' ! -name '.stow-local-ignore' \
-    | xargs --no-run-if-empty -- \
-      gpg --batch --yes --recipient "$2" --encrypt-files
+  files=$(find -L "$1" -maxdepth 100 -type f ! -name '*.gpg' ! -name '.stow-local-ignore')
+  for decrypted in $files ; do
+    encrypted="$decrypted.gpg"
+    permissions=$(stat -c "%a" "$decrypted")
+    chmod $permissions "$encrypted"
+  done
 }
