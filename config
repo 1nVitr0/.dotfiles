@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd -P -- "$(dirname "$0")"
+[[ "$0" == */config ]] && cd -P -- "$(dirname "$0")"
 
 export CONFIG_DIR="$PWD/.setup/main"
 
@@ -26,7 +26,7 @@ update_config profiles "$DOTFILE_PROFILES" true
 default=$(echo "$DOTFILE_PROFILES" | head -n1 | cut -d " " -f1)
 DOTFILE_DEFAULT_PROFILE=$(read_config \
   default_profile \
-  "your defaul dotfile profile" \
+  "your defaul dotfile profile - one of [$DOTFILE_PROFILES]" \
   "$default")
 update_config default_profile "$DOTFILE_DEFAULT_PROFILE" true
 

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source ./config
+
+rm -f "$CONFIG_DIR/default_profile"
+
+DOTFILE_DEFAULT_PROFILE=$(read_config \
+  default_profile \
+  "your defaul dotfile profile - one of [$DOTFILE_PROFILES]" \
+  "$DOTFILE_PROFILES")
+update_config default_profile "$DOTFILE_DEFAULT_PROFILE" true
+echo
+
+echo "Switching to profile $DOTFILE_DEFAULT_PROFILE..."
+echo
+
+./update

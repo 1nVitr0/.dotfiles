@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd -P -- "$(dirname "$0")"
+[[ "$0" == */config ]] && cd -P -- "$(dirname "$0")"
 
 export CONFIG_DIR="$PWD/../.setup/dotfiles"
 

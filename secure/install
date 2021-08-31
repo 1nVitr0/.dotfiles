@@ -15,5 +15,5 @@ echo "Decrypting dotfiles..."
 decrypt_recursive .
 echo
 
-echo "Linking dotfiles to $HOME..."
-link_dotfile_dirs  . $HOME
+echo "Linking secure dotfiles to dotfiles/..."
+link_dotfile_dirs_overlay  . ../dotfiles

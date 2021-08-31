@@ -12,7 +12,13 @@ source ./config
 if [ -z "${1+x}" ] ; then
   echo "Linking new dotfiles to $HOME..."
   link_dotfile_dirs . "$HOME"
+elif [ "$1" == "force" ] ; then
+  link_dotfile_dirs . "$HOME" force
 else
   echo "Linking dotfiles from "$1" to $HOME..."
-  link_dotfiles "$1" "$HOME"
+  if [[ ! -z "${2+x}" && "$2" == "force" ]] ; then
+    link_dotfiles "$1" "$HOME" force
+  else
+    link_dotfiles "$1" "$HOME"
+  fi
 fi

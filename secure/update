@@ -30,9 +30,8 @@ for file in $dotfiles; do
 done
 echo
 
-echo "Linking new dotfiles to $HOME..."
-link_dotfile_dirs . $HOME
-echo
+echo "Linking new secure dotfiles to dotfiles/..."
+link_dotfile_dirs_overlay . ../dotfiles
 
 if (( ${#merge_conflicts[@]} )); then
   echo "The following files have merge conflicts. They will have to be edited manually before committing:"

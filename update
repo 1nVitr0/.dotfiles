@@ -8,5 +8,13 @@ cd -P -- "$(dirname "$0")"
 source ./config
 
 migrations/update
-dotfiles/update
 secure/update
+dotfiles/update
+
+# Update Profiles
+other_profiles=${DOTFILE_PROFILES//$DOTFILE_DEFAULT_PROFILE/}
+for $profile in $other_profiles ; do
+  profiles/"$profile"/update
+done
+
+profiles/"$DOTFILE_DEFAULT_PROFILE"/update # Overlay current profile

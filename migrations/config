@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ! Must be in ./dotfile directory when sourcing
+[[ "$0" == */config ]] && cd -P -- "$(dirname "$0")"
 
 export CONFIG_DIR="$PWD/.setup/migrations"
 export SOFTWARE_DIR="$PWD/setup/software"

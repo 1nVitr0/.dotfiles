@@ -2,24 +2,34 @@
 
 # Usage: link_dotfile_dirs path target
 link_dotfile_dirs() {
-  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
-  | xargs -t0 --max-args=1 --no-run-if-empty -- \
-    stow -v --target="$2"
+  if [[ ! -z ${3+x} && "$3" == "force" ]] ; then
+    find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+    | xargs -t0 --max-args=1 --no-run-if-empty -- \
+      stow -v --override="*" --target="$2"
+  else
+    find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+    | xargs -t0 --max-args=1 --no-run-if-empty -- \
+      stow -v --target="$2"
+  fi
 }
 
 # Usage: link_dotfile_dirs_overlay path target
 link_dotfile_dirs_overlay() {
   find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
   | xargs -t0 --max-args=1 --no-run-if-empty -- \
-    stow -v --no-folding --target="$2"
+    stow -v --override="*" --no-folding --target="$2/$1"
 }
 
 # Usage: link_dotfiles path target
 link_dotfiles() {
-  stow -v --target="$2" "$1"
+  if [[ ! -z ${3+x} && "$3" == "force" ]] ; then
+    stow -v --override="*" --target="$2" "$1"
+  else
+    stow -v --target="$2" "$1"
+  fi
 }
 
 # Usage: link_dotfiles_overlay path target
 link_dotfiles_overlay() {
-  stow -v --no-folding --adopt --target="$2" "$1"
+  stow -v --no-folding --override="*" --target="$2" "$1"
 }

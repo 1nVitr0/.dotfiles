@@ -12,19 +12,18 @@ source ./config
 
 dir="$(dirname "$1")"
 out="$2"
-
 if [[ "$out" == profiles/secure* ]] ; then
   "$out"/import $1 $2
-if [[ "$out" == profiles/* ]] ; then
+elif [[ "$out" == profiles/* ]] ; then
   "$out"/dotfiles/import $1 $2
 elif [[ "$out" == global/secure/* ]] ; then
   secure/import $1 $2
 elif [[ "$out" == global/* ]] ; then
   dotfiles/import $1 $2
 elif [[ ! -z "$DOTFILE_DEFAULT_PROFILE" && "$out" == secure/* ]] ; then
-  "$DOTFILE_DEFAULT_PROFILE"/secure/import $1 $2
+  profiles/"$DOTFILE_DEFAULT_PROFILE"/secure/import $1 $2
 elif [[ ! -z "$DOTFILE_DEFAULT_PROFILE" ]] ; then
-  "$DOTFILE_DEFAULT_PROFILE"/dotfiles/import $1 $2
+  profiles/"$DOTFILE_DEFAULT_PROFILE"/dotfiles/import $1 $2
 elif [[ "$out" == secure/* ]] ; then
   secure/import $1 $2
 else

@@ -7,6 +7,6 @@ cd -P -- "$(dirname "$0")"
 # Load config variables
 source ./config
 
-test -f migrations && migrations/update
-dotfiles/update
-secure/update
+test -f migrations && migrations/update force
+secure/update force
+dotfiles/update force

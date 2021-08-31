@@ -18,6 +18,14 @@ install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux t
 stow -v bootstrap
 
 # Install dotfiles
-# migrations/install
-# dotfiles/install
-# secure/install
+migrations/install
+secure/install
+dotfiles/install
+
+# Install Profiles
+other_profiles=${DOTFILE_PROFILES//$DOTFILE_DEFAULT_PROFILE/}
+for $profile in $other_profiles ; do
+  profiles/"$profile"/install
+done
+
+profiles/"$DOTFILE_DEFAULT_PROFILE"/install # Overlay current profile
