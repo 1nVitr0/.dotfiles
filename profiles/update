@@ -7,6 +7,6 @@ cd -P -- "$(dirname "$0")"
 # Load config variables
 source ./config
 
-for profile in */ ; do
+for profile in $DOTFILE_PROFILES ; do
     "$profile"/update
 done

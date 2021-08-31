@@ -4,10 +4,9 @@ set -euo pipefail; shopt -s failglob # safe mode
 
 cd -P -- "$(dirname "$0")"
 
-# Includes
-source ../helpers/stow
+# Load config variables
+source ./config
 
-mkdir -p "$1/dotfiles"
-mkdir -p "$1/secure"
-
-link_dotfiles_overlay template "$1"
+for profile in $DOTFILE_PROFILES ; do
+    "$profile"/install
+done
