@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/1nVitr0/.dotfiles/compare/v1.1.0...v1.2.0) (2021-09-01)
+
+
+### Features
+
+* auto update git submodules on update ([f246a51](https://github.com/1nVitr0/.dotfiles/commit/f246a51b0b2302774aa691256110c5c8f079182c))
+
 # [1.1.0](https://github.com/1nVitr0/.dotfiles/compare/v1.0.0...v1.1.0) (2021-09-01)
 
 
