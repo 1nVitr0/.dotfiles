@@ -1,0 +1,6 @@
+[submodule "profiles/arambecker"]
+	path = profiles/arambecker
+	url = git@github.com:1nVitr0/dotfiles-arambecker.git
+[submodule "profiles/konsolenkost"]
+	path = profiles/konsolenkost
+	url = git@github.com:1nVitr0/dotfiles-konsolenkost.git

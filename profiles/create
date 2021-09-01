@@ -6,8 +6,19 @@ cd -P -- "$(dirname "$0")"
 
 # Includes
 source ../helpers/stow
+source ../helpers/git
+
+repo=""
+if [ ! -z ${2+x} ] ; then
+  repo="$2"
+else
+  read -rp "Please provide a repository url for the profile $1: " repo
+fi
 
 mkdir -p "$1/dotfiles"
 mkdir -p "$1/secure"
+cp ../.gitignore "$1/"
 
 link_dotfiles_overlay template "$1"
+
+make_submodule "$1" "$repo"

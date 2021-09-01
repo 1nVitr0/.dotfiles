@@ -28,3 +28,22 @@ update_check_encrypted() {
 
   return $result
 }
+
+make_submodule() {
+  cd "$1"
+  git init
+  git remote add origin "$2"
+
+  # Add files, including ignored that should be bootstrapped
+  git add .
+  [ test -f .setup/ ] && git add .setup/
+
+  git commit -am 'create dotfile profile $1'
+  if git push --force -u origin main ; then
+    # Only remove folder if push was successful
+    cd .. && rm -rf "$1"
+    git submodule add "$2" "$1"
+  else
+    exit 1
+  fi
+}
