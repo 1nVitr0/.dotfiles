@@ -4,6 +4,9 @@ set -euo pipefail; shopt -s failglob # safe mode
 
 cd -P -- "$(dirname "$0")"
 
+# Pull Changes
+git pull
+
 # Load config variables
 source ./config
 
@@ -14,7 +17,9 @@ dotfiles/update
 # Update Profiles
 other_profiles=${DOTFILE_PROFILES//$DOTFILE_DEFAULT_PROFILE/}
 for $profile in $other_profiles ; do
-  profiles/"$profile"/update
+  cd profiles/"$profile" && git submodule update --init
+  ./update && cd ../..
 done
 
-profiles/"$DOTFILE_DEFAULT_PROFILE"/update # Overlay current profile
+cd profiles/"$DOTFILE_DEFAULT_PROFILE" && git submodule update --init
+./update # Overlay current profile

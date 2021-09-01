@@ -11,7 +11,7 @@ source ./helpers/software
 source ./config
 
 # Install required packages
-install stow
+install stow gpg
 install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
 
 # Bootstrap initial configs
@@ -25,7 +25,9 @@ dotfiles/install
 # Install Profiles
 other_profiles=${DOTFILE_PROFILES//$DOTFILE_DEFAULT_PROFILE/}
 for $profile in $other_profiles ; do
-  profiles/"$profile"/install
+  cd profiles/"$profile" && git submodule update --init
+  ,/install && cd ../..
 done
 
-profiles/"$DOTFILE_DEFAULT_PROFILE"/install # Overlay current profile
+cd profiles/"$DOTFILE_DEFAULT_PROFILE" && git submodule update --init
+./install # Overlay current profile
