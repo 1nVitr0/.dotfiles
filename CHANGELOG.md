@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/1nVitr0/.dotfiles/compare/v1.0.0...v1.1.0) (2021-09-01)
+
+
+### Features
+
+* profiles now imported as submdules ([22b5152](https://github.com/1nVitr0/.dotfiles/commit/22b5152a9f30cf5356c49ec714668706e08222e1))
+
 # 1.0.0 (2021-09-01)
 
 
