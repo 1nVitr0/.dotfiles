@@ -1,9 +1,10 @@
-# Dotfiles management through git
+# Dotfiles management through git and stow
 
-- [Dotfiles management through git](#dotfiles-management-through-git)
+- [Dotfiles management through git and stow](#dotfiles-management-through-git-and-stow)
   - [Installation](#installation)
   - [Update](#update)
   - [Profiles](#profiles)
+  - [How it works](#how-it-works)
 - [Making it your home](#making-it-your-home)
 
 This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Additionally it includes an assortment of scripts to streamline and secure the process. The Structure is composed as follows:
@@ -23,7 +24,7 @@ This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Ad
 ⤷ secure
     ⤷ [package_name]
         ⧉ [dotfiles.gpg] # Encrypted secure dotfiles
-        ⧉ [dotfiles]     # Decrypted secure files stowed in dotfiles/package_name
+        ⧉ [dotfiles]*    # Decrypted secure files stowed in dotfiles/
    ⧉ [scripts]           # Scripts for managing secure dotfiles 
 ⤷ profiles
     ⤷ template           # Template files stowed in each profile
@@ -37,6 +38,8 @@ This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Ad
    ⧉ [scripts]           # Scripts for managing secure dotfiles 
 ⤷ migrations
    ⧉ [scripts]           # Possible migration scripts between versions
+
+* personal files not tracked by git
 ```
 
 ## Installation
@@ -77,6 +80,14 @@ To create a new profile, you must first create an empty repository for your prof
 ```
 ./dotfiles/profiles/create [PROFILE_NAME]
 ```
+
+## How it works
+
+This repository attempts to manage dotfiles through a combination of [stow](https://www.gnu.org/software/stow/) and [git](https://git-scm.com/). The root repository works the same way profiles do:
+
+Dotfiles are grouped into packages that get symlinked to your home directory using `stow`. Dotfiles in the secure directory are encrypted using [gpg](https://gnupg.org/) and the encrypted versions are symlinked from `secure/[PACKAGE]` to the `dotfiles/[PACKAGE]`, which in turn is symlinked to your `home` directory.
+
+Creating profiles uses the exact same structure (in fact the exact same scripts, they are symlinked as well). Each profile is applied in the order they are given on top of the root dotfiles. The currently selecting profile is applied last and overrides all dotfiles from the previously loaded profiles.
 
 # Making it your home
 
