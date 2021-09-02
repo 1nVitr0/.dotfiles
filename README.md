@@ -1,6 +1,13 @@
 # Dotfiles management through git and stow
 
+![.dotfiles manager](https://img.shields.io/badge/.dotfile-management-orange?logo=git)
+![license](https://img.shields.io/github/license/1nVitr0/.dotfiles)
+![latest release](https://img.shields.io/github/v/release/1nVitr0/.dotfiles?logo=semanticrelease)
+![code size](https://img.shields.io/github/languages/code-size/1nVitr0/.dotfiles)
+
+
 - [Dotfiles management through git and stow](#dotfiles-management-through-git-and-stow)
+  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Update](#update)
   - [Profiles](#profiles)
@@ -31,7 +38,7 @@ This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Ad
         ⤷ dotfiles       # Same structure as root with dotfiles and
         ⤷ secure         # secure dotfiles
         ⧉ [scripts]      # Scripts for managing single profiles 
-    ⤷ [profile_name]     # Each profile has the tenplate stowed into it
+    ⤷ [profile_name]     # Each profile has the template stowed into it
         ⤷ dotfiles       # Stowed from template
         ⤷ secure         # Stowed from template
         ⤷ [migration]    # Profile specific migrations
@@ -42,9 +49,23 @@ This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Ad
 * personal files not tracked by git
 ```
 
+## Prerequisites
+
+The repository is designed for ubuntu-based machines, most recent versions should work. It might also work on debian systems, for other operating systems it's most likely required to update the helper scripts to fit your package manager and os-specific commands. But the general idea should work on all systems that have a home folder using dotfiles. The only required software is:
+
+  - [Git](https://git-scm.com/)
+  - [Bash](https://www.gnu.org/software/bash/)
+
+Both are preinstalled on most systems, no other configuration is needed. During installation a few required packages will be set up automatically if not already installed:
+
+  - [stow](https://www.gnu.org/software/stow/)
+  - [gpg](https://gnupg.org/)
+  - [coreutils](https://www.gnu.org/software/coreutils/)
+  - [Visual Studio Code](https://code.visualstudio.com/) (this is used for the update mechanism of encrypted files using diff. Feel free to use a different editor)
+
 ## Installation
 
-For intial installation run from your home directory:
+For initial installation run from your home directory:
 
 ```
 git clone git@github.com:1nVitr0/.dotfiles.git
@@ -63,13 +84,11 @@ To update, it should be enough to run the global update script. It will pull cha
 
 It is recommended not to touch the encrypted dotfiles before a pull, as changes in encrypted files are very hard to track using git. The update script will automatically ask for manual intervention on merge conflicts.
 
-After adding changes, the upstream can be updated using the normal git commit / push workflow.
+After adding changes, the upstream can be updated using the normal git `commit` / `push` workflow.
 
 ## Profiles
 
-During installation you will be prompted for profiles. Profiles are user-, machine- or organisation specific dotfile packages. You can select any number of profiles and all will be applied in order, overriding the global config as well as any profiles before it.
-
-You will also be asked to set a default profile, which is the last profile applied independent of the order of the other profiles. You are always able to switch the main profile used using:
+During installation you will be prompted for profiles. Profiles are user-, machine- or organization specific dotfile packages. They have the same structure as the root repository but override the base dotfiles. T switch between profiles, the following command can be used: 
 
 ```
 .dotfiles/switch
@@ -87,7 +106,7 @@ This repository attempts to manage dotfiles through a combination of [stow](http
 
 Dotfiles are grouped into packages that get symlinked to your home directory using `stow`. Dotfiles in the secure directory are encrypted using [gpg](https://gnupg.org/) and the encrypted versions are symlinked from `secure/[PACKAGE]` to the `dotfiles/[PACKAGE]`, which in turn is symlinked to your `home` directory.
 
-Creating profiles uses the exact same structure (in fact the exact same scripts, they are symlinked as well). Each profile is applied in the order they are given on top of the root dotfiles. The currently selecting profile is applied last and overrides all dotfiles from the previously loaded profiles.
+Creating profiles uses the exact same structure (in fact the exact same scripts, they are symlinked as well). When a profile is switched all the dotfiles of the current profile (or the base dotfiles) are temporarily unlinked and the dotfiles from the profile are applied.
 
 # Making it your home
 
@@ -95,7 +114,7 @@ To use this repository as a dotfile management system, you will most likely have
 
 You can then add your own profiles and keep them updated in your own repositories. You should only edit dotfiles in your profile directories to maintain peak updatability with the original version.
 
-Updating to the upstream version can be done through the default git worklfow:
+Updating to the upstream version can be done through the default git workflow:
 
 ```
 git merge upstream/main
