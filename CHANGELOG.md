@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/1nVitr0/.dotfiles/compare/v1.2.0...v2.0.0) (2021-09-02)
+
+
+### Features
+
+* make sure profile switch is vaild ([2c47bcc](https://github.com/1nVitr0/.dotfiles/commit/2c47bccc14cae86ef58c905224e749cb87b1be6a))
+
+
+* feat!: new profile management ([5054666](https://github.com/1nVitr0/.dotfiles/commit/50546660a1048358b0a798c1a88416a1653f9c4b))
+
+
+### BREAKING CHANGES
+
+* profiles are now mutally exclusive
+
 # [1.2.0](https://github.com/1nVitr0/.dotfiles/compare/v1.1.0...v1.2.0) (2021-09-01)
 
 
