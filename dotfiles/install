@@ -3,9 +3,4 @@
 set -euo pipefail; shopt -s failglob # safe mode
 cd -P -- "$(dirname "$0")"
 
-
-if [[ ! -z ${1+x} && "$1" == "force" ]] ; then
-  ./update force
-else
-  ./update
-fi
+./update

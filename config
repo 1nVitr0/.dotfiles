@@ -18,21 +18,15 @@ if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
   fi
 fi
 
-DOTFILE_PROFILES=$(read_config \
-  profiles \
-  "your active dotfile profiles")
-update_config profiles "$DOTFILE_PROFILES" true
+profiles=$(find -L profiles -maxdepth 1 -type d ! -name 'template' ! -name '.setup' -printf '%P ')
 
-default=$(echo "$DOTFILE_PROFILES" | head -n1 | cut -d " " -f1)
-DOTFILE_DEFAULT_PROFILE=$(read_config \
-  default_profile \
-  "your defaul dotfile profile - one of [$DOTFILE_PROFILES]" \
-  "$default")
-update_config default_profile "$DOTFILE_DEFAULT_PROFILE" true
+DOTFILE_PROFILE=$(read_config \
+  dotfile_profile \
+  "your active dotfile profile [$profiles]")
+update_config profiles "$DOTFILE_PROFILE" true
 
 echo "Using Config:"
-echo "    dotfile profiles:        $DOTFILE_PROFILES"
-echo "    default dotfile profile: $DOTFILE_DEFAULT_PROFILE"
+echo "    dotfile profile: $DOTFILE_PROFILE"
 echo
 
 # Load subconfigs of specified
@@ -45,5 +39,4 @@ if [[ ! -z ${1+x} && "$1" == "all" ]] ; then
   ./secure/config
 fi
 
-export DOTFILE_PROFILES
-export DOTFILE_DEFAULT_PROFILE
+export DOTFILE_PROFILE

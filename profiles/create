@@ -18,7 +18,8 @@ fi
 mkdir -p "$1/dotfiles"
 mkdir -p "$1/secure"
 cp ../.gitignore "$1/"
+cd "$1" && ln -s ../template/.stow-local-ignore .stow-local-ignore cd ..
 
-link_dotfiles_overlay template "$1"
+link_dotfiles template "$1"
 
 make_submodule "$1" "$repo"

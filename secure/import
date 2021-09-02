@@ -21,16 +21,21 @@ if ! test -f "$out/.stow-local-ignore" ; then
 fi
 
 echo "Copying files from $HOME/$1 to secure/$out/$dir..."
-mv "$HOME/$1" "$out/$dir/"
-echo
-
-echo "Linking dotfiles from secure/$out to dotfiles/$out..."
-mkdir -p "../dotfiles/$out" # create directory if not exist
-link_dotfiles_overlay "$out" "../dotfiles/$out"
+cp -r "$HOME/$1" "$out/$dir/"
+mkdir -p "../dotfiles/$out"               # create dotfile directory if not exists
+cp -rf "../dotfiles/$out/$1" "$out/$dir/" # Copy over existing unsecured dotfiles
 echo
 
 echo "Encrypting files in secure/$out/$dir..."
 encrypt_recursive "$out/$dir/" "$GPG_KEY_ID"
+echo
+
+echo "Clean up unsecure dotfiles"
+rm -rf "../dotfiles/$out/$1" "$out/$dir/"
+echo
+
+echo "Linking dotfiles from secure/$out to dotfiles/$out..."
+link_dotfiles "$out" "../dotfiles/$out"
 echo
 
 ../dotfiles/update "$out"

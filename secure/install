@@ -16,4 +16,4 @@ decrypt_recursive .
 echo
 
 echo "Linking secure dotfiles to dotfiles/..."
-link_dotfile_dirs_overlay  . ../dotfiles
+link_dotfile_dirs  . ../dotfiles

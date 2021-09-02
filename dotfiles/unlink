@@ -10,9 +10,9 @@ source ../helpers/stow
 source ./config
 
 if [ -z "${1+x}" ] ; then
-  echo "Linking new dotfiles to $HOME..."
-  link_dotfile_dirs . "$HOME"
+  echo "Unlinking dotfiles from $HOME..."
+  unlink_dotfile_dirs . "$HOME"
 else
-  echo "Linking dotfiles from "$1" to $HOME..."
-  link_dotfiles "$1" "$HOME"
+  echo "Unlinking "$1" fromo $HOME..."
+  unlink_dotfiles "$1" "$HOME"
 fi

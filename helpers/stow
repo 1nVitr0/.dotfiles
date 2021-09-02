@@ -2,34 +2,38 @@
 
 # Usage: link_dotfile_dirs path target
 link_dotfile_dirs() {
-  if [[ ! -z ${3+x} && "$3" == "force" ]] ; then
-    find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
     | xargs -t0 --max-args=1 --no-run-if-empty -- \
-      stow -v --override="*" --target="$2"
-  else
-    find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
-    | xargs -t0 --max-args=1 --no-run-if-empty -- \
-      stow -v --target="$2"
-  fi
+      stow -v -R --target="$2"
 }
 
-# Usage: link_dotfile_dirs_overlay path target
-link_dotfile_dirs_overlay() {
-  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
-  | xargs -t0 --max-args=1 --no-run-if-empty -- \
-    stow -v --override="*" --no-folding --target="$2/$1"
+# Usage: link_dotfile_dirs path target_base
+link_dotfile_dirs_keep_tree() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\n' \
+    | xargs --no-run-if-empty --replace="{}" -- \
+      stow -v -R --target="$2/{}" "{}"
 }
 
 # Usage: link_dotfiles path target
 link_dotfiles() {
-  if [[ ! -z ${3+x} && "$3" == "force" ]] ; then
-    stow -v --override="*" --target="$2" "$1"
-  else
-    stow -v --target="$2" "$1"
-  fi
+  stow -v -R --target="$2" "$1"
 }
 
-# Usage: link_dotfiles_overlay path target
-link_dotfiles_overlay() {
-  stow -v --no-folding --override="*" --target="$2" "$1"
+# Usage: unlink_dotfile_dirs path target
+unlink_dotfile_dirs() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+    | xargs -t0 --max-args=1 --no-run-if-empty -- \
+      stow -v -D --target="$2"
+}
+
+# Usage: unlink_dotfile_dirs path target_base
+unlink_dotfile_dirs_keep_tree() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+    | xargs -t0 -I --max-args=1 --no-run-if-empty -- \
+      stow -v -D --target="$2/{}"
+}
+
+# Usage: unlink_dotfiles path target
+unlink_dotfiles() {
+  stow -v -D --target="$2" "$1"
 }

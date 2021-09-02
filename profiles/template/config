@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd -P -- "$(dirname "$0")"
+[[ "$0" == */config ]] && cd -P -- "$(dirname "$0")"
 
 export CONFIG_DIR="$PWD/.setup/main"
 
@@ -36,7 +36,7 @@ echo "    default dotfile profile: $DOTFILE_DEFAULT_PROFILE"
 echo
 
 # Load subconfigs of specified
-if [ ! -z ${1+x} && "$1" == "all" ] ; then
+if [[ ! -z ${1+x} && "$1" == "all" ]] ; then
   echo "Updating dotfile config"
   ./dotfiles/config
   echo

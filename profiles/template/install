@@ -11,6 +11,6 @@ source ../../helpers/software
 source ./config
 
 # Install dotfiles
-test -f migrations && migrations/install force
-secure/install force
-dotfiles/install force
+test -f migrations && migrations/install
+secure/install
+dotfiles/install

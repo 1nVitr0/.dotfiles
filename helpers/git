@@ -22,7 +22,9 @@ update_check_encrypted() {
   orig="$(dirname "$1")/$(basename "$1" .gpg)"
   temp="$(dirname "$1")/~$(basename "$1" .gpg)"
 
-  gpg --decrypt "$1" > "$temp" 2> /dev/null
+  if ! gpg --output "$temp" --decrypt "$1" ; then
+    return 1
+  fi
   update_check "$orig" "$temp"; result=$?
   rm -f "$temp" 
 
