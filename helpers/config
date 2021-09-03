@@ -38,9 +38,11 @@ update_config() {
 }
 
 clear_config() {
-  if [ ! -z ${3+x} ] ; then
-    rm -r "$CONFIG_DIR"
-  else
+  if [ ! -z ${q+x} ] ; then
     rm "$CONFIG_DIR/$1"
+  else
+    rm -r "$CONFIG_DIR"
   fi
+  # Recreate config folder
+  mkdir -p "$CONFIG_DIR"
 }

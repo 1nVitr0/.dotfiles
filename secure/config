@@ -8,15 +8,18 @@ source ../helpers/config
 
 if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
   if [[ ! -z ${2+x} ]] ; then
+    echo "Clearing secure config \"$2\""
     clear_config "$2"
   else
+    echo "Clearing all secure configs..."
     clear_config
   fi
+  echo
 fi
 
 GPG_KEY_ID=$(read_config \
   gpg_key_id \
-  "your gpg key id for decryption")
+  "your gpg key ids for decryption")
 gpg -k "$GPG_KEY_ID" \
   | update_config gpg_key_id "$GPG_KEY_ID" true
 

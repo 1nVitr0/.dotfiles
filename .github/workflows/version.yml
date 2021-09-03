@@ -30,3 +30,21 @@ jobs:
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  update_develop:
+    name: Update develop branch
+    runs-on: ubuntu-latest
+    needs: version
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: develop
+      - name: Git config
+        run: |
+          git config --local user.email 'action@github.com'
+          git config --local user.name 'GitHub Action'
+      - name: Merge main branch into develop (rebase)
+        run: git rebase origin/main
+      - name: Push develop Branch
+        run: git push
