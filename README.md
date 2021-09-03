@@ -76,6 +76,8 @@ git clone git@github.com:1nVitr0/.dotfiles.git
 
 The install script will interactively set up all the required configuration, decrypt the secure dotfiles and stow everything inside your home directory. Make sure you have access to all the repositories of the profiles you are using.
 
+After installation all dotfiles that were already present in your `home` directory will be copied into the repository. After editing them to your liking you can commit and update the repository.
+
 ## Update / Import
 
 To update, it should be enough to run the global update script. It will pull changes automatically:

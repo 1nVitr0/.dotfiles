@@ -7,11 +7,25 @@ link_dotfile_dirs() {
       stow -v -R --target="$2"
 }
 
+# Usage: link_dotfile_dirs path target
+link_dotfile_dirs_adpot() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\0' \
+    | xargs -t0 --max-args=1 --no-run-if-empty -- \
+      stow -v --adopt -R --target="$2"
+}
+
 # Usage: link_dotfile_dirs path target_base
 link_dotfile_dirs_keep_tree() {
   find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\n' \
     | xargs --no-run-if-empty --replace="{}" -- \
       stow -v --no-folding -R --target="$2/{}" "{}"
+}
+
+# Usage: link_dotfile_dirs path target_base
+link_dotfile_dirs_keep_tree_adopt() {
+  find -L "$1" -maxdepth 1 -type d ! \( -name '.*' \) -printf '%P\n' \
+    | xargs --no-run-if-empty --replace="{}" -- \
+      stow -v --adopt --no-folding -R --target="$2/{}" "{}"
 }
 
 # Usage: link_dotfiles path target

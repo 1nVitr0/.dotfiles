@@ -3,4 +3,11 @@
 set -euo pipefail; shopt -s failglob # safe mode
 cd -P -- "$(dirname "$0")"
 
-./update
+# Imports
+source ../helpers/stow
+
+# Load config variables
+source ./config
+
+echo "Linking dotfiles to $HOME..."
+link_dotfile_dirs_adopt . "$HOME"
