@@ -8,8 +8,10 @@ source ../helpers/config
 
 if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
   if [ ! -z ${2+x} ] ; then
+    echo "Clearing dotfile config \"$2\"..."
     clear_config "$2"
   else
+    echo "Clearing all dotfile configs..."
     clear_config
   fi
 fi

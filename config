@@ -8,13 +8,20 @@ source ./helpers/config
 
 if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
   if [[ ! -z ${2+x} && "$2" == "all" ]] ; then
+    echo "Clearing all global configs..."
     clear_config
+    echo
+    
     ./dotfiles/config clear
     ./secure/config clear
   elif [ ! -z ${2+x} ] ; then
+    echo "Clearing global config \"$2\"..."
     clear_config "$2"
+    echo
   else
+    echo "Clearing all global configs..."
     clear_config
+    echo
   fi
 fi
 
