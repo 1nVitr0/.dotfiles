@@ -28,6 +28,7 @@ encrypt_recursive() {
   for decrypted in $files ; do
     encrypted="$decrypted.gpg"
     touch "$encrypted" && chmod --reference="$decrypted" -- "$encrypted"
-    gpg --yes --recipient "$2" --encrypt-files "$decrypted"
+    recipients=($2) && recipients=( "${recipients[@]/#/--recipient }" )
+    gpg ${recipients[@]} --encrypt-files "$decrypted"
   done
 }
