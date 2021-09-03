@@ -9,8 +9,10 @@
 - [Dotfiles management through git and stow](#dotfiles-management-through-git-and-stow)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Update](#update)
+  - [Update / Import](#update--import)
   - [Profiles](#profiles)
+  - [Secure dotfiles](#secure-dotfiles)
+  - [Config](#config)
   - [How it works](#how-it-works)
 - [Making it your home](#making-it-your-home)
 
@@ -74,7 +76,7 @@ git clone git@github.com:1nVitr0/.dotfiles.git
 
 The install script will interactively set up all the required configuration, decrypt the secure dotfiles and stow everything inside your home directory. Make sure you have access to all the repositories of the profiles you are using.
 
-## Update
+## Update / Import
 
 To update, it should be enough to run the global update script. It will pull changes automatically:
 
@@ -85,6 +87,20 @@ To update, it should be enough to run the global update script. It will pull cha
 It is recommended not to touch the encrypted dotfiles before a pull, as changes in encrypted files are very hard to track using git. The update script will automatically ask for manual intervention on merge conflicts.
 
 After adding changes, the upstream can be updated using the normal git `commit` / `push` workflow.
+
+***
+
+To import new dotfiles into the repository the `import` script can be used:
+
+```shell
+.dotfiles/import [FILES] [PACKAGE]
+```
+
+To import your ssh config for example, you can use:
+
+```shell
+./dotfiles/import .ssh/ ssh
+```
 
 ## Profiles
 
@@ -98,6 +114,24 @@ To create a new profile, you must first create an empty repository for your prof
 
 ```
 ./dotfiles/profiles/create [PROFILE_NAME]
+```
+
+## Secure dotfiles
+
+The `secure` directory that resides in the root ans under all profile directories contains all the secure dotfiles. They are encrypted using a gpg key specified in the initial installation and only their encrypted version is committed into the repository. On installation or update they are decrypted, when change manually merged and then stowed into the `dotfile` directory. To import secure dotfiles use the default `import` syntax and provide an prepend the directory `secure`:
+
+```shell
+./dotfiles import secure/ssh
+# Or for profiles
+./dotfiles import profiles/arambecker/secure/ssh
+```
+
+## Config
+
+Configuration which is set up during initial installation can always be reset by running `.dotfile/config clear`. Additionally, running the `config clear` command in either `dotfiles`, `migrate` or `secure` allows for resetting their configurations. `config clear [CONFIG?]` also accepts an optional second argument for the specific configuration parameter to clear, e.g. to reset the GPG key ids run:
+
+```shell
+./dotfiles/secure/config clear gpg_key_id
 ```
 
 ## How it works
