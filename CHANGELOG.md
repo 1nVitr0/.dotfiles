@@ -1,3 +1,17 @@
+# [2.1.0](https://github.com/1nVitr0/.dotfiles/compare/v2.0.1...v2.1.0) (2021-09-03)
+
+
+### Bug Fixes
+
+* adopt existing files on initial installation ([e40d21c](https://github.com/1nVitr0/.dotfiles/commit/e40d21c117fb6d6e41d3009574282b92892731b9))
+* clearing config ([af8924c](https://github.com/1nVitr0/.dotfiles/commit/af8924c5c71bf7c310604f8064d9cdda1dce0b61))
+* encrypt secure files after update ([e49d983](https://github.com/1nVitr0/.dotfiles/commit/e49d983fb189791d307a449359edb447ffb456bc))
+
+
+### Features
+
+* allow multiple gpg keys ([3f877ff](https://github.com/1nVitr0/.dotfiles/commit/3f877ffde80149fb6048b7729775b922f6cb13c6))
+
 ## [2.0.1](https://github.com/1nVitr0/.dotfiles/compare/v2.0.0...v2.0.1) (2021-09-03)
 
 
