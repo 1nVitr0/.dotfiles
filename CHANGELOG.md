@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/1nVitr0/.dotfiles/compare/v2.0.0...v2.0.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* fix secure subfolder stowing to dotfiles ([d7da0fa](https://github.com/1nVitr0/.dotfiles/commit/d7da0fa962aa397303bb13a4c9c54f3ee8f83440))
+
 # [2.0.0](https://github.com/1nVitr0/.dotfiles/compare/v1.2.0...v2.0.0) (2021-09-02)
 
 
