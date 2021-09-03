@@ -17,11 +17,7 @@ merge_conflicts=()
 
 echo "Updating dotfiles..."
 readarray -d '' dotfiles < <(find -L . -maxdepth 100 -type f -name '*.gpg')
-echo "$dotfiles"
 for file in $dotfiles; do
-  echo "$PWD" 
-  echo "$file"
-  cat "$file" 
   filename="${file#./}"; filename="secure/${filename%.gpg}"
   if update_check_encrypted "$file" ; then
     echo "Successfully updated $filename"
@@ -34,19 +30,19 @@ for file in $dotfiles; do
 done
 echo
 
-# echo "Linking new secure dotfiles to dotfiles/..."
-# link_dotfile_dirs_keep_tree . ../dotfiles
+echo "Linking new secure dotfiles to dotfiles/..."
+link_dotfile_dirs_keep_tree . ../dotfiles
 
-# if (( ${#merge_conflicts[@]} )); then
-#   echo "The following files have merge conflicts. They will have to be edited manually before committing:"
-#   for conflict in "${merge_conflicts[@]}" ; do
-#     echo "    $conflict"
-#   done
-#   echo
-#   echo "Afterwards, run $(dirname "$0")/secure/encrypt and commit changes"
-# else
-#   echo "No merge conflicts."
-#   ./encrypt
-#   echo
-#   echo "All files have been updated successfully. You may update the git repository."
-# fi
+if (( ${#merge_conflicts[@]} )); then
+  echo "The followings files have merge conflicts. They will have to be edited manually before committing:"
+  for conflict in "${merge_conflicts[@]}" ; do
+    echo "    $conflict"
+  done
+  echo
+  echo "Afterwards, run $(dirname "$0")/secure/encrypt and commit changes"
+else
+  echo "No merge conflicts."
+  ./encrypt
+  echo
+  echo "All files have been updated successfully. You may update the git repository."
+fi
