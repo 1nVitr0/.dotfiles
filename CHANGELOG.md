@@ -1,3 +1,11 @@
+## [2.1.1](https://github.com/1nVitr0/.dotfiles/compare/v2.1.0...v2.1.1) (2021-09-06)
+
+
+### Bug Fixes
+
+* fix dotfile profile variable globally ([ed597c2](https://github.com/1nVitr0/.dotfiles/commit/ed597c24e36f463d260ed95654773a2b7acd57d8))
+* fix importing secure files without dotfile import ([d19431e](https://github.com/1nVitr0/.dotfiles/commit/d19431ed976a5c8cb59814d11cb60ab23b6ee054))
+
 # [2.1.0](https://github.com/1nVitr0/.dotfiles/compare/v2.0.1...v2.1.0) (2021-09-03)
 
 
