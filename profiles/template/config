@@ -2,37 +2,46 @@
 
 [[ "$0" == */config ]] && cd -P -- "$(dirname "$0")"
 
-export CONFIG_DIR="$PWD/.setup/main"
+export CONFIG_DIR="$PWD/../.setup/main"
 
 source ./helpers/config
 
 if [[ ! -z ${1+x} && "$1" == "clear" ]] ; then
   if [[ ! -z ${2+x} && "$2" == "all" ]] ; then
+    echo "Clearing all global configs..."
     clear_config
+    echo
+    
     ./dotfiles/config clear
     ./secure/config clear
   elif [ ! -z ${2+x} ] ; then
+    echo "Clearing global config \"$2\"..."
     clear_config "$2"
+    echo
   else
+    echo "Clearing all global configs..."
     clear_config
+    echo
   fi
 fi
 
-DOTFILE_PROFILES=$(read_config \
-  profiles \
-  "your active dotfile profiles")
-update_config profiles "$DOTFILE_PROFILES" true
+profiles=$(find -L ../../profiles -maxdepth 1 -type d ! -name 'template' ! -name '.setup' -printf '%P ')
+DOTFILE_PROFILE=""
 
-default=$(echo "$DOTFILE_PROFILES" | head -n1 | cut -d " " -f1)
-DOTFILE_DEFAULT_PROFILE=$(read_config \
-  default_profile \
-  "your defaul dotfile profile" \
-  "$default")
-update_config default_profile "$DOTFILE_DEFAULT_PROFILE" true
+while [ ! -z ${DOTFILE_PROFILE+x} ] ; do
+  DOTFILE_PROFILE=$(read_config \
+    dotfile_profile \
+    "your active dotfile profile [$profiles]")
+  if [[ " ${profiles} " =~ " ${DOTFILE_PROFILE} " ]]; then
+    update_config dotfile_profile "$DOTFILE_PROFILE" true
+    break;
+  else
+    echo "Invalid Profile \"$DOTFILE_PROFILE\" [$profiles]!"
+  fi
+done
 
 echo "Using Config:"
-echo "    dotfile profiles:        $DOTFILE_PROFILES"
-echo "    default dotfile profile: $DOTFILE_DEFAULT_PROFILE"
+echo "    dotfile profile: $DOTFILE_PROFILE"
 echo
 
 # Load subconfigs of specified
@@ -45,5 +54,4 @@ if [[ ! -z ${1+x} && "$1" == "all" ]] ; then
   ./secure/config
 fi
 
-export DOTFILE_PROFILES
-export DOTFILE_DEFAULT_PROFILE
+export DOTFILE_PROFILE

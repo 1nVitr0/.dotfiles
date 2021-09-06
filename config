@@ -33,7 +33,7 @@ while [ ! -z ${DOTFILE_PROFILE+x} ] ; do
     dotfile_profile \
     "your active dotfile profile [$profiles]")
   if [[ " ${profiles} " =~ " ${DOTFILE_PROFILE} " ]]; then
-    update_config profiles "$DOTFILE_PROFILE" true
+    update_config dotfile_profile "$DOTFILE_PROFILE" true
     break;
   else
     echo "Invalid Profile \"$DOTFILE_PROFILE\" [$profiles]!"

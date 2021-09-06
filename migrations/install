@@ -12,7 +12,7 @@ source ./config
 echo "Setting up .dotfiles for version $LATEST_VERSION"
 echo
 
-$previous_dir="$PWD"
+previous_dir="$PWD"
 cd "$SOFTWARE_DIR"
 
 # TODO: Install software

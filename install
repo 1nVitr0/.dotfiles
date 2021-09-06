@@ -11,16 +11,17 @@ source ./helpers/software
 source ./config
 
 # Install required packages
-install stow gpg coreutils
-install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
+# install stow gpg coreutils
+
+# install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
 
 # Bootstrap initial configs
-stow -v bootstrap
+stow -v bootstrap --target=$HOME
 
 # Install dotfiles
 migrations/install
 
-if [ -z ${DOTFILE_PROFILE+x} ] ; then
+if [ ! -z ${DOTFILE_PROFILE+x} ] ; then
   cd profiles/"$DOTFILE_PROFILE" && git submodule update --init
   ./install
 else
