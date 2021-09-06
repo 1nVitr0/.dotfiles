@@ -23,7 +23,13 @@ fi
 echo "Copying files from $HOME/$1 to secure/$out/$dir..."
 cp -r "$HOME/$1" "$out/$dir/"
 mkdir -p "../dotfiles/$out"               # create dotfile directory if not exists
-cp -rf "../dotfiles/$out/$1" "$out/$dir/" # Copy over existing unsecured dotfiles
+if test -f "../dotfiles/$out/$1"; then
+  # Copy over existing unsecured dotfiles
+  cp -rf "../dotfiles/$out/$1" "$out/$dir/"
+else
+  # Copy over dotfiles from home dir
+  cp -rf "$HOME/$1" "$out/$dir/"
+fi
 echo
 
 echo "Encrypting files in secure/$out/$dir..."
@@ -31,7 +37,11 @@ encrypt_recursive "$out/$dir/" "$GPG_KEY_ID"
 echo
 
 echo "Clean up unsecure dotfiles"
-rm -rf "../dotfiles/$out/$1" "$out/$dir/"
+if test -f "../dotfiles/$out/$1"; then
+  rm -rf "../dotfiles/$out/$1"
+else
+  rm -rf "$HOME/$1"
+fi
 echo
 
 echo "Linking dotfiles from secure/$out to dotfiles/$out..."
