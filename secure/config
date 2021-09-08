@@ -20,7 +20,7 @@ fi
 GPG_KEY_ID=$(read_config \
   gpg_key_id \
   "your gpg key ids for decryption")
-gpg -k "$GPG_KEY_ID" \
+echo "$GPG_KEY_ID" | xargs printf -- '-k %s\n' | xargs gpg \
   | update_config gpg_key_id "$GPG_KEY_ID" true
 
 echo "Using Config:"

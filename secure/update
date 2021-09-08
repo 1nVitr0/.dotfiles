@@ -15,14 +15,15 @@ source ./config
 
 merge_conflicts=()
 
-echo "Updating dotfiles..."
+echo "Updating secure dotfiles..."
 readarray -d '' dotfiles < <(find -L . -maxdepth 100 -type f -name '*.gpg')
+recipients=($GPG_KEY_ID) && recipients=( "${recipients[@]/#/--recipient }" )
 for file in $dotfiles; do
   filename="${file#./}"; filename="secure/${filename%.gpg}"
   if update_check_encrypted "$file" ; then
     echo "Successfully updated $filename"
     echo "    Encrypting updated dotfile $filename..."
-    rm -f "$file" && gpg --output "$file" --recipient "$GPG_KEY_ID" --encrypt "${file%.gpg}"
+    rm -f "$file" && gpg ${recipients[@]} --output "$file" --encrypt "${file%.gpg}"
   else
     echo "Not updating $filename. You will have to handle merge conflicts manually."
     merge_conflicts+=("$filename")

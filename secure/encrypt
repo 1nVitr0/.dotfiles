@@ -11,4 +11,8 @@ source ../helpers/gpg
 source ./config
 
 echo "Encrypring files..."
-encrypt_recursive . "$GPG_KEY_ID"
+readarray -d '' profiles < <(find -L . -maxdepth 1 -type d ! \( -name '.*' \))
+for profile in $profiles ; do
+  encrypt_recursive "$profile" "$GPG_KEY_ID"
+  echo "    Successfully Encrypted $profile"
+done

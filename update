@@ -12,7 +12,7 @@ source ./config
 
 migrations/update
 
-if [ -z ${DOTFILE_PROFILE+x} ] ; then
+if [ ! -z ${DOTFILE_PROFILE+x} ] ; then
   cd profiles/"$DOTFILE_PROFILE" && git submodule update --init
   ./update
 else
