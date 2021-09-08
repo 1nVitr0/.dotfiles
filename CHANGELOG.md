@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/1nVitr0/.dotfiles/compare/v2.1.1...v2.1.2) (2021-09-08)
+
+
+### Bug Fixes
+
+* fix multi gpg key encryption ([0e19bd2](https://github.com/1nVitr0/.dotfiles/commit/0e19bd2c30ce4b439a713e3ba98a71af6283df5d))
+
 ## [2.1.1](https://github.com/1nVitr0/.dotfiles/compare/v2.1.0...v2.1.1) (2021-09-06)
 
 
