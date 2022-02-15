@@ -7,6 +7,12 @@ cd -P -- "$(dirname "$0")"
 # Includes
 source ../../helpers/software
 
+# Run setup script local
+if [ -f setup ] ; then
+  source setup
+  echo
+fi
+
 # Load config variables
 source ./config
 

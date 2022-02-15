@@ -6,15 +6,17 @@
 ![code size](https://img.shields.io/github/languages/code-size/1nVitr0/.dotfiles)
 
 
-- [Dotfiles management through git and stow](#dotfiles-management-through-git-and-stow)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Update / Import](#update--import)
-  - [Profiles](#profiles)
-  - [Secure dotfiles](#secure-dotfiles)
-  - [Config](#config)
-  - [How it works](#how-it-works)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Update / Import](#update--import)
+- [Profiles](#profiles)
+- [Secure dotfiles](#secure-dotfiles)
+- [Config](#config)
+- [Helpers](#helpers)
+  - [Software Helper](#software-helper)
+- [How it works](#how-it-works)
 - [Making it your home](#making-it-your-home)
+  - [Custom setup script](#custom-setup-script)
 
 This repository contains dotfiles for managing an `Ubuntu 21.04` home folder. Additionally it includes an assortment of scripts to streamline and secure the process. The Structure is composed as follows:
 
@@ -136,6 +138,24 @@ Configuration which is set up during initial installation can always be reset by
 ./dotfiles/secure/config clear gpg_key_id
 ```
 
+## Helpers
+
+Most of the helpers are scripts that are used internally. The exception is the `software` helper, which can be used in [setup](#custom-setup-script) scripts.
+
+### Software Helper
+
+The software helper exposes the following functions:
+
+- `install`
+  - Checks if packages are installed using the OS package manager (currently only Ubuntu / aptitude is supported)
+  - Usage: `install [...name]`, multiple packages can be listed
+- `path_exists`
+  - Checks if the path exists and returns 1 if it doesn't
+  - Usage: `path_exists name path`
+- `install_git`
+  - Checks if a `dest` exists and clones `repo` to dist if not
+  - Usage: `install_git name repo dest [...args]` (args are prepended to git command)
+
 ## How it works
 
 This repository attempts to manage dotfiles through a combination of [stow](https://www.gnu.org/software/stow/) and [git](https://git-scm.com/). The root repository works the same way profiles do:
@@ -144,7 +164,7 @@ Dotfiles are grouped into packages that get symlinked to your home directory usi
 
 Creating profiles uses the exact same structure (in fact the exact same scripts, they are symlinked as well). When a profile is switched all the dotfiles of the current profile (or the base dotfiles) are temporarily unlinked and the dotfiles from the profile are applied.
 
-# Making it your home
+## Making it your home
 
 To use this repository as a dotfile management system, you will most likely have to fork the existing version. feel free to delete or edit the `.gitmodules` file if you are not using any of the containing profiles.
 
@@ -155,3 +175,21 @@ Updating to the upstream version can be done through the default git workflow:
 ```
 git merge upstream/main
 ```
+
+### Custom setup script
+
+Everyone uses a different suite of software. As such, you can provide a custom `setup` script that gets executed if it's present. The helpers from `helpers/software` are automatically loaded, so you can use the defined functions `install`, `install_git` and `path_exists`. A section from my setup script is for example:
+
+```shell
+#!/bin/bash
+
+# Setup
+echo "Setting up required software:"
+install zsh
+install google-chrome-stable || true
+path_exists oh-my-zsh ~/.oh-my-zsh || sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+install_git zsh/powerlevel10k https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k --depth=1
+echo
+```
+
+As you can see, you can define optional dependencies by using `|| true`. For more information, see the [helpers](#software-helper) section.
