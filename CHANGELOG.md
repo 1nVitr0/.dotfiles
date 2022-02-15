@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/1nVitr0/.dotfiles/compare/v2.1.2...v2.2.0) (2022-02-15)
+
+
+### Bug Fixes
+
+* install required packages on install ([8e4f9cd](https://github.com/1nVitr0/.dotfiles/commit/8e4f9cd0dce3ab1cf4c0412879f07a6b8bf75e0b))
+
+
+### Features
+
+* support custom setup scripts ([a4041d0](https://github.com/1nVitr0/.dotfiles/commit/a4041d058fb9a4e27761dcc6110e4cb91b839ae6))
+
 ## [2.1.2](https://github.com/1nVitr0/.dotfiles/compare/v2.1.1...v2.1.2) (2021-09-08)
 
 
