@@ -11,7 +11,10 @@ source ./helpers/software
 source ./config
 
 # Install required packages
-# install stow gpg coreutils
+install stow
+install code
+install coreutils
+echo
 
 # install_fallback "Please follow https://code.visualstudio.com/docs/setup/linux to install code" code
 
