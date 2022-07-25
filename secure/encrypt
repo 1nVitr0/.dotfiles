@@ -10,7 +10,7 @@ source ../helpers/gpg
 # Load config variables
 source ./config
 
-echo "Encrypring files..."
+echo "Encryptring files..."
 readarray -d '' profiles < <(find -L . -maxdepth 1 -type d ! \( -name '.*' \))
 for profile in $profiles ; do
   encrypt_recursive "$profile" "$GPG_KEY_ID"

@@ -29,6 +29,7 @@ encrypt_recursive() {
     encrypted="$decrypted.gpg"
     touch "$encrypted" && chmod --reference="$decrypted" -- "$encrypted"
     recipients=($2) && recipients=( "${recipients[@]/#/--recipient }" )
+    rm -f "$encrypted"
     gpg ${recipients[@]} --encrypt-files "$decrypted"
   done
 }
