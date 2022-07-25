@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/1nVitr0/.dotfiles/compare/v2.2.0...v2.2.1) (2022-07-25)
+
+
+### Bug Fixes
+
+* skip confirmation on overwriting encrypted files ([e0b7fc0](https://github.com/1nVitr0/.dotfiles/commit/e0b7fc02db8cf181ef75b70a9ae609b104fc0b4b))
+
 # [2.2.0](https://github.com/1nVitr0/.dotfiles/compare/v2.1.2...v2.2.0) (2022-02-15)
 
 
