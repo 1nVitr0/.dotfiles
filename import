@@ -2,6 +2,11 @@
 
 set -euo pipefail; shopt -s failglob # safe mode
 
+if (( $# != 2 )) ; then
+  echo "Please specify a file to import and a destination"
+  exit 1
+fi
+
 cd -P -- "$(dirname "$0")"
 
 # Includes
