@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail; shopt -s failglob # safe mode
+cd -P -- "$(dirname "$0")"
+
+if [ -z "${1+x}" ] ; then
+  echo "Please specify a file to unlink"
+  exit 1
+fi
+
+./dotfiles/unlink "$1"
