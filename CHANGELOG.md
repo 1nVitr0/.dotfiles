@@ -1,3 +1,11 @@
+## [2.2.2](https://github.com/1nVitr0/.dotfiles/compare/v2.2.1...v2.2.2) (2024-10-22)
+
+
+### Bug Fixes
+
+* add folder name input for import ([d625097](https://github.com/1nVitr0/.dotfiles/commit/d625097b090140bcbccfbaa651d6e99fe370d8d5))
+* add remove script ([aae0a9a](https://github.com/1nVitr0/.dotfiles/commit/aae0a9a0b2b9cb11dc76ae4dc4222c631870ae71))
+
 ## [2.2.1](https://github.com/1nVitr0/.dotfiles/compare/v2.2.0...v2.2.1) (2022-07-25)
 
 
